@@ -4,7 +4,7 @@ import org.dreambot.api.methods.map.Area;
 
 public enum Locations {
     NONE("None", null),
-    CHICKEN_COOP("Chicken Coop", new Area(3225, 3300, 3236, 3295)),
+    CHICKEN_COOP("Chicken Coop", new Area(3225, 3300, 3235, 3295)),
     COW_PEN("Cow Pen", new Area(3194, 3300, 3210, 3285));
 
     private String name;

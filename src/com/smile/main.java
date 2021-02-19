@@ -4,7 +4,6 @@ import com.smile.mouse.EaseMouse;
 import com.smile.settings.Locations;
 import com.smile.settings.NPCTask;
 import com.smile.settings.States;
-import com.smile.tasks.chickens.AttackChickens;
 import com.smile.tasks.cows.AttackCows;
 import org.dreambot.api.Client;
 import org.dreambot.api.methods.skills.Skill;
@@ -17,7 +16,7 @@ import org.dreambot.api.script.impl.TaskScript;
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
 
-@ScriptManifest(category = Category.COMBAT, name = "Trade Restrictions Lite", author = "smile", version = 0.1)
+@ScriptManifest(category = Category.COMBAT, name = "Trade Restrictions Lite", author = "smile", version = 0.2)
 public class main extends TaskScript {
     public static Locations location = Locations.NONE;
     public static NPCTask npc = NPCTask.NONE;
@@ -30,7 +29,7 @@ public class main extends TaskScript {
         Client.getInstance().setMouseMovementAlgorithm(new EaseMouse());
         SkillTracker.start();
         timeStart = System.currentTimeMillis();
-        addNodes(new AttackChickens(), new AttackCows());
+        addNodes(new AttackCows());
         }
     private String ft(long duration) {
         String res;
