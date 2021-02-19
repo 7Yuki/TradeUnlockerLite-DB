@@ -4,8 +4,10 @@ import com.smile.mouse.EaseMouse;
 import com.smile.settings.Locations;
 import com.smile.settings.NPCTask;
 import com.smile.settings.States;
+import com.smile.tasks.chickens.AttackChickens;
 import com.smile.tasks.cows.AttackCows;
 import org.dreambot.api.Client;
+import org.dreambot.api.data.GameState;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.SkillTracker;
 import org.dreambot.api.methods.skills.Skills;
@@ -16,7 +18,7 @@ import org.dreambot.api.script.impl.TaskScript;
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
 
-@ScriptManifest(category = Category.COMBAT, name = "Trade Restrictions Lite", author = "smile", version = 0.2)
+@ScriptManifest(category = Category.COMBAT, name = "Trade Restrictions Lite", author = "smile", version = 0.3)
 public class main extends TaskScript {
     public static Locations location = Locations.NONE;
     public static NPCTask npc = NPCTask.NONE;
@@ -29,7 +31,7 @@ public class main extends TaskScript {
         Client.getInstance().setMouseMovementAlgorithm(new EaseMouse());
         SkillTracker.start();
         timeStart = System.currentTimeMillis();
-        addNodes(new AttackCows());
+        addNodes(new AttackChickens(), new AttackCows());
         }
     private String ft(long duration) {
         String res;
@@ -62,12 +64,13 @@ public class main extends TaskScript {
          */
         g.setColor(Color.WHITE);
         g.drawString("Runtime: " + ft(timeRan),12,50);
-
-        g.drawString("Location: " + location.getName(), 12,65);
-        g.drawString("State: " + state.getState() + " - " + npc.getName() ,12,77);
-        g.drawString("HP: " + Skills.getRealLevel(Skill.HITPOINTS) + " (+" + SkillTracker.getGainedLevels(Skill.HITPOINTS) + ")" + " [" + SkillTracker.getGainedExperiencePerHour(Skill.HITPOINTS) + "]",12,95);
-        g.drawString("Attack: " + Skills.getRealLevel(Skill.ATTACK) + " (+" + SkillTracker.getGainedLevels(Skill.ATTACK) + ")" + " [" + SkillTracker.getGainedExperiencePerHour(Skill.ATTACK) + "]",  12,107);
-        g.drawString("Strength: " + Skills.getRealLevel(Skill.STRENGTH) + " (+" + SkillTracker.getGainedLevels(Skill.STRENGTH) + ")" + " [" + SkillTracker.getGainedExperiencePerHour(Skill.STRENGTH) + "]" ,12,119);
-        g.drawString("Defence: " + Skills.getRealLevel(Skill.DEFENCE) + " (+" + SkillTracker.getGainedLevels(Skill.DEFENCE) + ")" + " [" + SkillTracker.getGainedExperiencePerHour(Skill.DEFENCE) + "]",12,131);
+        if(Client.getGameState() == GameState.LOGGED_IN) {
+            g.drawString("Location: " + location.getName(), 12,65);
+            g.drawString("State: " + state.getState() + " - " + npc.getName() ,12,77);
+            g.drawString("HP: " + Skills.getRealLevel(Skill.HITPOINTS) + " (+" + SkillTracker.getGainedLevels(Skill.HITPOINTS) + ")" + " [" + SkillTracker.getGainedExperiencePerHour(Skill.HITPOINTS) + "]",12,95);
+            g.drawString("Attack: " + Skills.getRealLevel(Skill.ATTACK) + " (+" + SkillTracker.getGainedLevels(Skill.ATTACK) + ")" + " [" + SkillTracker.getGainedExperiencePerHour(Skill.ATTACK) + "]",  12,107);
+            g.drawString("Strength: " + Skills.getRealLevel(Skill.STRENGTH) + " (+" + SkillTracker.getGainedLevels(Skill.STRENGTH) + ")" + " [" + SkillTracker.getGainedExperiencePerHour(Skill.STRENGTH) + "]" ,12,119);
+            g.drawString("Defence: " + Skills.getRealLevel(Skill.DEFENCE) + " (+" + SkillTracker.getGainedLevels(Skill.DEFENCE) + ")" + " [" + SkillTracker.getGainedExperiencePerHour(Skill.DEFENCE) + "]",12,131);
+        }
     }
 }
