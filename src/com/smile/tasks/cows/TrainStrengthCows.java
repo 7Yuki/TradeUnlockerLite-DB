@@ -1,4 +1,4 @@
-package com.smile.tasks.chickens;
+package com.smile.tasks.cows;
 
 import com.smile.settings.Locations;
 import org.dreambot.api.methods.Calculations;
@@ -12,10 +12,10 @@ import org.dreambot.api.methods.widget.Widgets;
 import org.dreambot.api.script.TaskNode;
 import org.dreambot.api.wrappers.widgets.WidgetChild;
 
-public class SwitchToStrength extends TaskNode {
+public class TrainStrengthCows extends TaskNode {
     @Override
     public boolean accept() {
-        return Skills.getRealLevel(Skill.STRENGTH) <= 19 && Skills.getRealLevel(Skill.ATTACK) >= 19 && Skills.getRealLevel(Skill.DEFENCE) >= 19 && Locations.CHICKEN_COOP.getArea().contains(Players.localPlayer());
+        return Skills.getRealLevel(Skill.STRENGTH) <= 45 && Locations.COW_PEN.getArea().contains(Players.localPlayer());
     }
 
     @Override

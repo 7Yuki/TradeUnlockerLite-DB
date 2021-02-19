@@ -12,18 +12,18 @@ import org.dreambot.api.methods.widget.Widgets;
 import org.dreambot.api.script.TaskNode;
 import org.dreambot.api.wrappers.widgets.WidgetChild;
 
-public class SwitchToDefence extends TaskNode {
+public class TrainStrengthChicken extends TaskNode {
     @Override
     public boolean accept() {
-        return Skills.getRealLevel(Skill.DEFENCE) <= 19 && Skills.getRealLevel(Skill.ATTACK) >= 19 && Skills.getRealLevel(Skill.STRENGTH) >= 19 && Locations.CHICKEN_COOP.getArea().contains(Players.localPlayer());
+        return Skills.getRealLevel(Skill.STRENGTH) <= 19 && Skills.getRealLevel(Skill.ATTACK) >= 19 && Skills.getRealLevel(Skill.DEFENCE) >= 19 && Locations.CHICKEN_COOP.getArea().contains(Players.localPlayer());
     }
 
     @Override
     public int execute() {
-        WidgetChild accurateWidget = Widgets.getWidget(593).getChild(16);
-        if (PlayerSettings.getConfig(43) != 3) {
+        WidgetChild slashWidget = Widgets.getWidget(593).getChild(4);
+        if (PlayerSettings.getConfig(43) != 1) {
             if (Tabs.isOpen(Tab.COMBAT)) {
-                if(accurateWidget.interact()) {
+                if(slashWidget.interact()) {
                     Tabs.openWithFKey(Tab.INVENTORY);
                 }
             } else {

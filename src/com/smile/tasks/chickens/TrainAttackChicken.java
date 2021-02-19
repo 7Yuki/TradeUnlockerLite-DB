@@ -12,7 +12,7 @@ import org.dreambot.api.methods.widget.Widgets;
 import org.dreambot.api.script.TaskNode;
 import org.dreambot.api.wrappers.widgets.WidgetChild;
 
-public class SwitchToAttack extends TaskNode {
+public class TrainAttackChicken extends TaskNode {
     @Override
     public boolean accept() {
         return Skills.getRealLevel(Skill.ATTACK) <= 19 && Skills.getRealLevel(Skill.DEFENCE) >= 19 && Skills.getRealLevel(Skill.STRENGTH) >= 19 && Locations.CHICKEN_COOP.getArea().contains(Players.localPlayer());

@@ -5,7 +5,13 @@ import com.smile.settings.Locations;
 import com.smile.settings.NPCTask;
 import com.smile.settings.States;
 import com.smile.tasks.chickens.AttackChickens;
+import com.smile.tasks.chickens.TrainAttackChicken;
+import com.smile.tasks.chickens.TrainDefenceChicken;
+import com.smile.tasks.chickens.TrainStrengthChicken;
 import com.smile.tasks.cows.AttackCows;
+import com.smile.tasks.cows.TrainAttackCows;
+import com.smile.tasks.cows.TrainDefenceCows;
+import com.smile.tasks.cows.TrainStrengthCows;
 import org.dreambot.api.Client;
 import org.dreambot.api.data.GameState;
 import org.dreambot.api.methods.skills.Skill;
@@ -31,8 +37,16 @@ public class main extends TaskScript {
         Client.getInstance().setMouseMovementAlgorithm(new EaseMouse());
         SkillTracker.start();
         timeStart = System.currentTimeMillis();
-        addNodes(new AttackChickens(), new AttackCows());
-        }
+        addNodes(
+                new AttackChickens(),
+                new AttackCows(),
+                new TrainAttackCows(),
+                new TrainDefenceCows(),
+                new TrainStrengthCows(),
+                new TrainAttackChicken(),
+                new TrainStrengthChicken(),
+                new TrainDefenceChicken()
+        );}
     private String ft(long duration) {
         String res;
         long days = TimeUnit.MILLISECONDS.toDays(duration);
