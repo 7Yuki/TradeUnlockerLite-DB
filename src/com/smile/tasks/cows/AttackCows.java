@@ -29,13 +29,13 @@ public class AttackCows extends TaskNode {
             if (cow != null) {
                 main.npc = NPCTask.COW;
                 main.location = Locations.COW_PEN;
-                if (!Players.localPlayer().isAnimating()) {
+                if (!Players.localPlayer().isInCombat()) {
                     if(cow.interact("Attack")) {
                         main.state = States.ATTACKING;
                     }
                 } else {
-                    sleepWhile(() -> Players.localPlayer().isInCombat(), () -> Players.localPlayer().isAnimating(),5000,5);
                     Mouse.moveMouseOutsideScreen();
+                    sleepWhile(() -> Players.localPlayer().isAnimating(), cow::exists,5000,5);
                     main.state = States.ATTACKING;
 
                 }

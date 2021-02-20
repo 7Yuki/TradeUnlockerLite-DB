@@ -40,13 +40,16 @@ public class main extends TaskScript {
         addNodes(
                 new AttackChickens(),
                 new AttackCows(),
+
                 new TrainAttackCows(),
                 new TrainDefenceCows(),
                 new TrainStrengthCows(),
+
                 new TrainAttackChicken(),
                 new TrainStrengthChicken(),
                 new TrainDefenceChicken()
-        );}
+        );
+    }
     private String ft(long duration) {
         String res;
         long days = TimeUnit.MILLISECONDS.toDays(duration);
@@ -70,13 +73,14 @@ public class main extends TaskScript {
     public void onPaint(Graphics2D g) {
         timeRan = System.currentTimeMillis() - timeStart;
         super.onPaint(g);
-        /*
+
         g.setColor(new Color(80,255,140,255));
-        g.drawRect(8,37,165,125);
+        g.drawRect(8,17,165,125);
         g.setColor(new Color(0,0,0,175));
-        g.fillRect(10,39,163,123);
-         */
+        g.fillRect(10,19,163,123);
+
         g.setColor(Color.WHITE);
+        g.drawString("sTradeRestriction Lite v" + getVersion(),12,35);
         g.drawString("Runtime: " + ft(timeRan),12,50);
         if(Client.getGameState() == GameState.LOGGED_IN) {
             g.drawString("Location: " + location.getName(), 12,65);
