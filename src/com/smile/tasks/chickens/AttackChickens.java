@@ -37,7 +37,7 @@ public class AttackChickens extends TaskNode {
 
                     }
                 } else {
-                    sleepWhile(() -> Players.localPlayer().isAnimating(), () -> Players.localPlayer().isAnimating(),5000,5);
+                    sleepWhile(() -> Players.localPlayer().isInCombat(), () -> Players.localPlayer().isAnimating(),5000,5);
                     Mouse.moveMouseOutsideScreen();
                     main.state = States.ATTACKING;
 
