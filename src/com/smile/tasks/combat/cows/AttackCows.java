@@ -1,4 +1,4 @@
-package com.smile.tasks.cows;
+package com.smile.tasks.combat.cows;
 
 import com.smile.main;
 import com.smile.settings.Locations;
@@ -18,12 +18,16 @@ import org.dreambot.api.wrappers.interactive.NPC;
 public class AttackCows extends TaskNode {
     @Override
     public boolean accept() {
-        return !(Skills.getRealLevel(Skill.ATTACK) <= 19)
-                && !(Skills.getRealLevel(Skill.STRENGTH) <= 19)
-                && !(Skills.getRealLevel(Skill.DEFENCE) <= 19)
+        return (Skills.getRealLevel(Skill.ATTACK) <= 45
+                || Skills.getRealLevel(Skill.STRENGTH) <= 45
+                || Skills.getRealLevel(Skill.DEFENCE) <= 45)
                 && !Players.localPlayer().isInCombat();
     }
 
+    @Override
+    public int priority() {
+        return 3;
+    }
 
     @Override
     public int execute() {
@@ -32,7 +36,8 @@ public class AttackCows extends TaskNode {
             if (cow != null) {
                 main.npc = NPCTask.COW;
                 main.location = Locations.COW_PEN;
-                if (!Players.localPlayer().isAnimating() || !Players.localPlayer().isInCombat()) {
+                if (!cow.isInteractedWith() && !Players.localPlayer().isInCombat()) {
+                    sleep(500,800);
                     if(cow.interact("Attack")) {
                         main.state = States.ATTACKING;
                         Mouse.moveMouseOutsideScreen();
@@ -43,8 +48,9 @@ public class AttackCows extends TaskNode {
                 }
             }
         } else {
-            if (!Locations.COW_PEN.getArea().contains(Players.localPlayer())) {
+            if (!Locations.COW_PEN.getArea().contains(Players.localPlayer()) && !Players.localPlayer().isInCombat()) {
                 StatusBar.info("Walking to Cow pen", false);
+
                 Walking.walk(Locations.COW_PEN.getArea().getRandomTile());
             }
         }
