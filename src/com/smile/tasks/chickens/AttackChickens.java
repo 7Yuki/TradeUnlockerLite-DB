@@ -11,6 +11,7 @@ import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.Skills;
 import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.script.TaskNode;
+import org.dreambot.api.utilities.StatusBar;
 import org.dreambot.api.wrappers.interactive.NPC;
 
 import static com.smile.settings.Locations.CHICKEN_COOP;
@@ -19,8 +20,13 @@ public class AttackChickens extends TaskNode {
     @Override
     public boolean accept() {
         return (Skills.getRealLevel(Skill.ATTACK) <= 19)
-                && (Skills.getRealLevel(Skill.STRENGTH) <= 19)
-                && (Skills.getRealLevel(Skill.DEFENCE) <= 19);
+                || (Skills.getRealLevel(Skill.STRENGTH) <= 19)
+                || (Skills.getRealLevel(Skill.DEFENCE) <= 19)
+                && !Players.localPlayer().isInCombat();
+    }
+    @Override
+    public int priority() {
+        return 1;
     }
     @Override
     public int execute() {
@@ -29,22 +35,22 @@ public class AttackChickens extends TaskNode {
             if (chickens != null) {
                 main.npc = NPCTask.CHICKEN;
                 main.location = CHICKEN_COOP;
-                if (!Players.localPlayer().isInCombat()) {
+                if (!Players.localPlayer().isInteractedWith() && !Players.localPlayer().isAnimating()) {
                     if (chickens.interact("Attack")) {
                         main.state = States.ATTACKING;
-
+                        Mouse.moveMouseOutsideScreen();
+                        StatusBar.info("Attacking chicken", false);
                     }
                 } else {
-                    Mouse.moveMouseOutsideScreen();
-                    sleepWhile(() -> Players.localPlayer().isAnimating(), chickens::exists,5000,5);
-                    main.state = States.ATTACKING;
-
+                        sleepWhile(() -> Players.localPlayer().isAnimating(), chickens::exists,5000,5);
+                    }
                 }
-            }
         } else {
-            Walking.walk(CHICKEN_COOP.getArea().getRandomTile());
+            if (!CHICKEN_COOP.getArea().contains(Players.localPlayer())) {
+                StatusBar.info("Walking to Chicken coop", false);
+                Walking.walk(CHICKEN_COOP.getArea().getRandomTile());
+            }
         }
-
         return Calculations.random(1000,1200);
     }
 }

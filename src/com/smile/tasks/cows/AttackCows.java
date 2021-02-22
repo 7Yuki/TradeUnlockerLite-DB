@@ -12,15 +12,18 @@ import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.Skills;
 import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.script.TaskNode;
+import org.dreambot.api.utilities.StatusBar;
 import org.dreambot.api.wrappers.interactive.NPC;
 
 public class AttackCows extends TaskNode {
     @Override
     public boolean accept() {
-        return (Skills.getRealLevel(Skill.ATTACK) <= 45)
-                && (Skills.getRealLevel(Skill.STRENGTH) <= 45)
-                && (Skills.getRealLevel(Skill.DEFENCE) <= 45);
+        return !(Skills.getRealLevel(Skill.ATTACK) <= 19)
+                && !(Skills.getRealLevel(Skill.STRENGTH) <= 19)
+                && !(Skills.getRealLevel(Skill.DEFENCE) <= 19)
+                && !Players.localPlayer().isInCombat();
     }
+
 
     @Override
     public int execute() {
@@ -29,22 +32,22 @@ public class AttackCows extends TaskNode {
             if (cow != null) {
                 main.npc = NPCTask.COW;
                 main.location = Locations.COW_PEN;
-                if (!Players.localPlayer().isInCombat()) {
+                if (!Players.localPlayer().isAnimating() || !Players.localPlayer().isInCombat()) {
                     if(cow.interact("Attack")) {
                         main.state = States.ATTACKING;
+                        Mouse.moveMouseOutsideScreen();
+                        StatusBar.info("Attacking cow", false);
                     }
                 } else {
-                    Mouse.moveMouseOutsideScreen();
                     sleepWhile(() -> Players.localPlayer().isAnimating(), cow::exists,5000,5);
-                    main.state = States.ATTACKING;
-
                 }
             }
         } else {
-            Walking.walk(Locations.COW_PEN.getArea().getRandomTile());
+            if (!Locations.COW_PEN.getArea().contains(Players.localPlayer())) {
+                StatusBar.info("Walking to Cow pen", false);
+                Walking.walk(Locations.COW_PEN.getArea().getRandomTile());
+            }
         }
-
-
         return Calculations.random(1000,1200);
     }
 }

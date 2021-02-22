@@ -10,20 +10,27 @@ import org.dreambot.api.methods.tabs.Tab;
 import org.dreambot.api.methods.tabs.Tabs;
 import org.dreambot.api.methods.widget.Widgets;
 import org.dreambot.api.script.TaskNode;
+import org.dreambot.api.utilities.StatusBar;
 import org.dreambot.api.wrappers.widgets.WidgetChild;
 
 public class TrainStrengthCows extends TaskNode {
     @Override
     public boolean accept() {
-        return Skills.getRealLevel(Skill.STRENGTH) <= 45 && Locations.COW_PEN.getArea().contains(Players.localPlayer());
+        return Skills.getRealLevel(Skill.STRENGTH) <= 45 && Locations.COW_PEN.getArea().contains(Players.localPlayer()) && PlayerSettings.getConfig(43) != 1;
     }
-
+    @Override
+    public int priority() {
+        return 2;
+    }
     @Override
     public int execute() {
-        WidgetChild slashWidget = Widgets.getWidget(593).getChild(4);
+        WidgetChild slashWidget = Widgets.getWidget(593).getChild(8);
         if (PlayerSettings.getConfig(43) != 1) {
+            StatusBar.info("Switching to Strength until level 45", false);
+            log("Switching to Strength until level 45");
             if (Tabs.isOpen(Tab.COMBAT)) {
-                if(slashWidget.interact()) {
+                if(slashWidget.interact() && PlayerSettings.getConfig(43) == 1) {
+                    StatusBar.info("Now gaining Strength XP", false);
                     Tabs.openWithFKey(Tab.INVENTORY);
                 }
             } else {
