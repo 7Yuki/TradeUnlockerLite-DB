@@ -1,18 +1,20 @@
 package com.smile;
 
-import com.smile.mouse.EaseMouse;
+import com.smile.mouse.WindMouse;
 import com.smile.settings.Locations;
 import com.smile.settings.NPCTask;
 import com.smile.settings.States;
+import com.smile.tasks.Inventory.BuryBones;
+import com.smile.tasks.Inventory.DropItems;
+import com.smile.tasks.combat.chickens.AttackChickens;
+import com.smile.tasks.combat.chickens.TrainAttackChicken;
+import com.smile.tasks.combat.chickens.TrainDefenceChicken;
+import com.smile.tasks.combat.chickens.TrainStrengthChicken;
+import com.smile.tasks.combat.cows.AttackCows;
+import com.smile.tasks.combat.cows.TrainAttackCows;
+import com.smile.tasks.combat.cows.TrainDefenceCows;
+import com.smile.tasks.combat.cows.TrainStrengthCows;
 import com.smile.tasks.general.Logout;
-import com.smile.tasks.chickens.AttackChickens;
-import com.smile.tasks.chickens.TrainAttackChicken;
-import com.smile.tasks.chickens.TrainDefenceChicken;
-import com.smile.tasks.chickens.TrainStrengthChicken;
-import com.smile.tasks.cows.AttackCows;
-import com.smile.tasks.cows.TrainAttackCows;
-import com.smile.tasks.cows.TrainDefenceCows;
-import com.smile.tasks.cows.TrainStrengthCows;
 import org.dreambot.api.Client;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.skills.Skill;
@@ -34,7 +36,10 @@ public class main extends TaskScript {
     @Override
     public void onStart() {
         super.onStart();
-        Client.getInstance().setMouseMovementAlgorithm(new EaseMouse());
+        log("Setting mouse algorithm to WindMouse.");
+        //Client.getInstance().setMouseMovementAlgorithm(new EaseMouse());
+        Client.getInstance().setMouseMovementAlgorithm(new WindMouse());
+        log("Done!");
         SkillTracker.start();
         timeStart = System.currentTimeMillis();
         addNodes(
@@ -49,7 +54,10 @@ public class main extends TaskScript {
                 new TrainStrengthChicken(),
                 new TrainDefenceChicken(),
 
-                new Logout()
+                new Logout(),
+
+                new BuryBones(),
+                new DropItems()
         );
 
     }
@@ -86,6 +94,7 @@ public class main extends TaskScript {
             g.drawString("Attack: " + Skills.getRealLevel(Skill.ATTACK) + " (+" + SkillTracker.getGainedLevels(Skill.ATTACK) + ")" + " [" + SkillTracker.getGainedExperiencePerHour(Skill.ATTACK) + "]",  12,122);
             g.drawString("Strength: " + Skills.getRealLevel(Skill.STRENGTH) + " (+" + SkillTracker.getGainedLevels(Skill.STRENGTH) + ")" + " [" + SkillTracker.getGainedExperiencePerHour(Skill.STRENGTH) + "]" ,12,134);
             g.drawString("Defence: " + Skills.getRealLevel(Skill.DEFENCE) + " (+" + SkillTracker.getGainedLevels(Skill.DEFENCE) + ")" + " [" + SkillTracker.getGainedExperiencePerHour(Skill.DEFENCE) + "]",12,146);
+            g.drawString("Total Level: " + Skills.getTotalLevel(),12, 158);
         }
     }
 }
