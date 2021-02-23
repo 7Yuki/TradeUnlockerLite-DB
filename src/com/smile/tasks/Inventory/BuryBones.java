@@ -14,7 +14,7 @@ public class BuryBones extends TaskNode {
 
     @Override
     public int priority() {
-        return 4;
+        return 5;
     }
 
     @Override
