@@ -9,7 +9,7 @@ import org.dreambot.api.script.TaskNode;
 public class Logout extends TaskNode {
     @Override
     public boolean accept() {
-        return Skills.getRealLevel(Skill.ATTACK) >= 45 && Skills.getRealLevel(Skill.STRENGTH) >= 45 && Skills.getRealLevel(Skill.DEFENCE) >= 45;
+        return (Skills.getRealLevel(Skill.ATTACK) >= 45 && Skills.getRealLevel(Skill.STRENGTH) >= 45 && Skills.getRealLevel(Skill.DEFENCE) >= 45);
     }
 
     @Override
