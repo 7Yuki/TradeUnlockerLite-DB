@@ -4,7 +4,7 @@ public enum Items {
     ITEMS_TO_DROP("Cowhide", "Beef", "Egg", "Raw chicken"),
     BONES("Bones");
 
-    private String[] items;
+    private final String[] items;
 
     Items(String... items) {
         this.items = items;
@@ -13,4 +13,5 @@ public enum Items {
     public String[] getItems() {
         return items;
     }
+
 }
