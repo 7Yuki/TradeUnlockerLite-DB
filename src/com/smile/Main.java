@@ -1,6 +1,7 @@
 package com.smile;
 
-import com.smile.mouse.WindMouse;
+import com.smile.util.mouse.algorithms.EaseMouse;
+import com.smile.util.mouse.paint.DrawMouseEvent;
 import com.smile.settings.Locations;
 import com.smile.settings.NPCTask;
 import com.smile.settings.States;
@@ -14,12 +15,14 @@ import com.smile.tasks.combat.cows.AttackCows;
 import com.smile.tasks.combat.cows.TrainAttackCows;
 import com.smile.tasks.combat.cows.TrainDefenceCows;
 import com.smile.tasks.combat.cows.TrainStrengthCows;
+import com.smile.tasks.combat.worldhop.HopWorld;
 import com.smile.tasks.general.Logout;
 import org.dreambot.api.Client;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.skills.SkillTracker;
 import org.dreambot.api.methods.skills.Skills;
+import org.dreambot.api.methods.world.Worlds;
 import org.dreambot.api.script.Category;
 import org.dreambot.api.script.ScriptManifest;
 import org.dreambot.api.script.impl.TaskScript;
@@ -27,7 +30,7 @@ import org.dreambot.api.script.impl.TaskScript;
 import java.awt.*;
 
 @ScriptManifest(category = Category.COMBAT, name = "Trade Restrictions Lite", author = "smile", version = 0.4)
-public class main extends TaskScript {
+public class Main extends TaskScript {
     public static Locations location = Locations.NONE;
     public static NPCTask npc = NPCTask.NONE;
     public static States state = States.NOTHING;
@@ -36,28 +39,25 @@ public class main extends TaskScript {
     @Override
     public void onStart() {
         super.onStart();
-        log("Setting mouse algorithm to WindMouse.");
-        //Client.getInstance().setMouseMovementAlgorithm(new EaseMouse());
-        Client.getInstance().setMouseMovementAlgorithm(new WindMouse());
+        log("Setting mouse algorithm to EaseMouse.");
+        Client.getInstance().setMouseMovementAlgorithm(new EaseMouse());
+        //Client.getInstance().setMouseMovementAlgorithm(new WindMouse());
         log("Done!");
         SkillTracker.start();
         timeStart = System.currentTimeMillis();
         addNodes(
                 new AttackChickens(),
                 new AttackCows(),
-
                 new TrainAttackCows(),
                 new TrainDefenceCows(),
                 new TrainStrengthCows(),
-
                 new TrainAttackChicken(),
                 new TrainStrengthChicken(),
                 new TrainDefenceChicken(),
-
                 new Logout(),
-
                 new BuryBones(),
-                new DropItems()
+                new DropItems(),
+                new HopWorld()
         );
 
     }
@@ -95,6 +95,12 @@ public class main extends TaskScript {
             g.drawString("Strength: " + Skills.getRealLevel(Skill.STRENGTH) + " (+" + SkillTracker.getGainedLevels(Skill.STRENGTH) + ")" + " [" + SkillTracker.getGainedExperiencePerHour(Skill.STRENGTH) + "]" ,12,134);
             g.drawString("Defence: " + Skills.getRealLevel(Skill.DEFENCE) + " (+" + SkillTracker.getGainedLevels(Skill.DEFENCE) + ")" + " [" + SkillTracker.getGainedExperiencePerHour(Skill.DEFENCE) + "]",12,146);
             g.drawString("Total Level: " + Skills.getTotalLevel(),12, 158);
+            g.drawString("World: " + Worlds.getCurrentWorld(),12,170);
+            //DrawMouseEvent.getInstance().setCursorColor(Color.);
+            //DrawMouseEvent.getInstance().setTrailColor(new Color(199,36,177));
+            DrawMouseEvent.getInstance().setTrailColor(Color.red);
+            DrawMouseEvent.getInstance().drawTrail(g);
+            DrawMouseEvent.getInstance().drawPlusMouse(g);
         }
     }
 }
