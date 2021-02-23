@@ -1,6 +1,7 @@
 package com.smile.tasks.combat.chickens;
 
-import com.smile.methods.combat.CombatStyle;
+
+import com.smile.util.events.widgets.WidgetEvent;
 import com.smile.settings.Locations;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.interactive.Players;
@@ -21,7 +22,7 @@ public class TrainAttackChicken extends TaskNode {
 
     @Override
     public int execute() {
-        CombatStyle.changeCombatStlye(0,4,"Attack");
+        new WidgetEvent().changeCombatStlye(0,4,"Attack");
         return Calculations.random(1000,1200);
     }
 }
