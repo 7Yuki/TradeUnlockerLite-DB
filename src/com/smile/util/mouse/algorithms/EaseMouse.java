@@ -1,4 +1,4 @@
-package com.smile.mouse;
+package com.smile.util.mouse.algorithms;
 
 import org.dreambot.api.Client;
 import org.dreambot.api.input.Mouse;
