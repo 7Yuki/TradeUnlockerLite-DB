@@ -4,7 +4,7 @@
  *
  * Prepped for DreamBot 3
  **/
-package com.smile.mouse;
+package com.smile.util.mouse.algorithms;
 import org.dreambot.api.Client;
 import org.dreambot.api.input.Mouse;
 import org.dreambot.api.input.mouse.algorithm.MouseMovementAlgorithm;
