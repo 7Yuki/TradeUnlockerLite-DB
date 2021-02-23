@@ -30,20 +30,20 @@ public class AttackCows extends TaskNode {
 
     @Override
     public int execute() {
-        NPC cow = NPCs.closest(c -> c != null && c.getName().equals("Cow") && !c.isInCombat() && c.hasAction("Attack") && c.canAttack());
+        NPC cow = NPCs.closest(c -> c != null && c.getName().equals("Cow") && !c.isInCombat() && c.hasAction("Attack"));
         if (Locations.COW_PEN.getArea().contains(Players.localPlayer())) {
+            Main.state = States.NOTHING;
             if (cow != null) {
                 Main.npc = NPCTask.COW;
                 Main.location = Locations.COW_PEN;
                 if (!cow.isInteractedWith() && !Players.localPlayer().isInCombat()) {
-                    sleep(500,800);
                     if(cow.interact("Attack")) {
                         Main.state = States.ATTACKING;
                         Mouse.moveMouseOutsideScreen();
                         StatusBar.info("Attacking cow", false);
                     }
                 } else {
-                    sleepWhile(() -> Players.localPlayer().isAnimating(), cow::exists,5000,5);
+                    sleepWhile(() -> Players.localPlayer().isAnimating(), () -> Players.localPlayer().isAnimating(),5000,5);
                 }
             }
         } else {

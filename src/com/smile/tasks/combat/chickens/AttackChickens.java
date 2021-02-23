@@ -1,6 +1,6 @@
 package com.smile.tasks.combat.chickens;
 
-import com.smile.main;
+import com.smile.Main;
 import com.smile.settings.NPCTask;
 import com.smile.settings.States;
 import org.dreambot.api.input.Mouse;
@@ -24,25 +24,28 @@ public class AttackChickens extends TaskNode {
                 || (Skills.getRealLevel(Skill.DEFENCE) < 19)
                 && !Players.localPlayer().isInCombat();
     }
+
     @Override
     public int priority() {
         return 1;
     }
+
     @Override
     public int execute() {
-        NPC chickens = NPCs.closest(q -> q != null && q.getName().equals("Chicken") && !q.isInCombat() && q.hasAction("Attack") && q.canAttack());
+        NPC chickens = NPCs.closest(q -> q != null && q.getName().equals("Chicken") && !q.isInCombat() && q.hasAction("Attack"));
         if (CHICKEN_COOP.getArea().contains(Players.localPlayer())) {
+            Main.state = States.NOTHING;
             if (chickens != null) {
-                main.npc = NPCTask.CHICKEN;
-                main.location = CHICKEN_COOP;
+                Main.npc = NPCTask.CHICKEN;
+                Main.location = CHICKEN_COOP;
                 if (!chickens.isInteractedWith() && !Players.localPlayer().isInCombat()) {
                     if (chickens.interact("Attack")) {
-                        main.state = States.ATTACKING;
+                        Main.state = States.ATTACKING;
                         Mouse.moveMouseOutsideScreen();
                         StatusBar.info("Attacking chicken", false);
                     }
                 } else {
-                        sleepWhile(() -> Players.localPlayer().isAnimating(), chickens::exists,5000,5);
+                    sleepWhile(() -> Players.localPlayer().isAnimating(), () -> Players.localPlayer().isAnimating(),5000,5);
                     }
                 }
         } else if (!CHICKEN_COOP.getArea().contains(Players.localPlayer()) && !Players.localPlayer().isInCombat()) {
