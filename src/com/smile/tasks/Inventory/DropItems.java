@@ -14,7 +14,7 @@ public class DropItems extends TaskNode {
 
     @Override
     public int priority() {
-        return 5;
+        return 6;
     }
 
     @Override
